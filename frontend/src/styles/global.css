@@ -1,0 +1,28 @@
+@import 'tailwindcss';
+@import './variables.css';
+
+/* Tailwind v4 CSS-first theme: registering these under @theme generates
+   matching utilities (bg-bg, text-text, bg-primary, text-accent, ...).
+   Dark is the default; variables.css overrides them under :root.light. */
+@theme {
+  --color-primary: #6f3ce5;
+  --color-accent: #ff006e;
+  --color-bg: #0f1419;
+  --color-surface: rgba(255, 255, 255, 0.05);
+  --color-border: rgba(255, 255, 255, 0.1);
+  --color-text: #ffffff;
+  --color-text-muted: #b3b3c0;
+  --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-sans);
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}

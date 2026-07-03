@@ -1,0 +1,43 @@
+Hi 👋, I'm Gaurav Chaurasia
+Platform Engineer | Kubernetes | GitOps | SRE | Cloud-Native Observability | AI-Powered Incident Response
+
+I design, build, and operate production-grade cloud-native platforms focused on Kubernetes, GitOps, observability, security, and reliability engineering.
+
+My expertise includes building scalable microservices platforms using Kubernetes, Docker, Helm, Istio, Argo CD, Prometheus, Grafana, Loki, Tempo, Kyverno, GitHub Actions, Jenkins, Terraform, Python, and Kafka.
+
+I specialize in Platform Engineering and Site Reliability Engineering (SRE), with hands-on experience implementing:
+
+✅ GitOps delivery platforms
+✅ Kubernetes security & policy enforcement
+✅ AI-powered incident response systems
+✅ End-to-end observability stacks
+✅ Service mesh architectures
+✅ CI/CD automation pipelines
+✅ Container security scanning & DevSecOps
+✅ Cloud-native monitoring, logging, and tracing
+
+Recently, I built an AI-powered Kubernetes alert enrichment platform integrating Prometheus Alertmanager, OpenAI, FastAPI, and Slack to automate intelligent incident analysis and troubleshooting recommendations for microservices running in Kubernetes.
+
+I enjoy solving complex infrastructure challenges, improving platform reliability, reducing operational overhead, and enabling teams to ship software faster and safer through modern cloud-native engineering practices.
+
+
+🔥 Featured Platform Project
+GC Industries – Cloud-Native DevOps Superheros Platform
+👉 https://github.com/gc-ghub/project-gc-industries-devops-superheros
+
+A production-style cloud-native microservices platform built on Kubernetes implementing Platform Engineering, SRE, GitOps, Security, and Observability best practices.
+
+🚀 Key Implementations
+Kubernetes-based microservices platform
+GitOps deployments using Argo CD
+Service mesh implementation with Istio
+End-to-end observability with Prometheus, Grafana, Loki & Tempo
+AI-powered alert enrichment using OpenAI + FastAPI + Slack
+Policy enforcement using Kyverno
+Container security scanning using Trivy
+Secret scanning using Gitleaks
+Code security analysis using CodeQL
+CI/CD pipelines using GitHub Actions
+Distributed tracing & monitoring
+Kubernetes reliability engineering workflows
+Incident simulation and troubleshooting automation

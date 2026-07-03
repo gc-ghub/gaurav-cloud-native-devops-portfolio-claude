@@ -1,0 +1,10 @@
+/* Dark is the default/primary theme (values live in global.css's @theme block).
+   This file only holds the light-mode override, toggled via a .light class
+   on <html> — :root.light has higher specificity than :root so it wins. */
+:root.light {
+  --color-bg: #ffffff;
+  --color-surface: rgba(15, 20, 25, 0.04);
+  --color-border: rgba(15, 20, 25, 0.08);
+  --color-text: #1a1a1a;
+  --color-text-muted: #4b4b57;
+}

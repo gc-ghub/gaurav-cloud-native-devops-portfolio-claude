@@ -1,0 +1,26 @@
+services:
+  backend:
+    build: ./backend
+    ports:
+      - "8080:8080"
+    environment:
+      GITHUB_USERNAME: gc-ghub
+      GITHUB_API_URL: https://api.github.com
+      GITHUB_TOKEN: ""
+      CREDLY_USER_ID: gaurav-chaurasia.25908149
+      CREDLY_API_URL: https://www.credly.com
+      CACHE_TTL_MINUTES: "10"
+      MAX_PROJECTS: "6"
+      PORT: "8080"
+      FRONTEND_URL: http://localhost:8081
+      ENVIRONMENT: production
+
+  frontend:
+    build:
+      context: ./frontend
+      args:
+        VITE_API_BASE_URL: http://localhost:8080
+    ports:
+      - "8081:80"
+    depends_on:
+      - backend
