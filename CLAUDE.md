@@ -5,7 +5,7 @@
 **Project Name:** Gaurav Chaurasia's DevOps & Platform Engineering Portfolio
 
 **Owner:** Gaurav Chaurasia  
-**Repository:** https://github.com/gc-ghub  
+**Repository:** https://github.com/gc-ghub/gaurav-cloud-native-devops-portfolio-claude  
 **Deployment:** docker container / docker-compose /ngrok (local development) / Self-hosted (production)
 
 ## 📋 Project Overview
