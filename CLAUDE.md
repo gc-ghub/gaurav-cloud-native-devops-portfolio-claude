@@ -285,15 +285,20 @@ The contact form/email feature was dropped entirely (user decision) rather than 
 **Status:** Dockerized and verified locally (`docker compose up`) — nothing below this point has actually been provisioned. There's no cloud account, VPS, or domain available to deploy to; the options below remain the plan for whenever one exists.
 
 ### Local Development (ngrok)
+The Docker frontend container (`frontend/nginx.conf`) proxies `/api/` and `/healthz` to the backend on the same Docker network, so it's a single origin — no CORS issues, no need to know the ngrok URL ahead of time (the frontend calls relative `/api/...` paths, not an absolute backend URL).
+
 ```bash
-# Start backend on port 8080
-go run main.go
+# Start the full stack
+docker compose build && docker compose up -d   # frontend :8081, backend :8080
 
-# In another terminal, expose via ngrok
-ngrok http 8080
+# One-time: sign up for a free ngrok account, then
+ngrok config add-authtoken <your-token>
 
-# Update frontend API URL to ngrok URL
+# In another terminal, expose the combined frontend+API origin
+ngrok http 8081
 ```
+
+Open the printed `https://*.ngrok-free.app` URL — ngrok's free tier shows a one-time interstitial "visit site" page to anonymous visitors before reaching the tunnel (cosmetic, not a bug). Stop with `docker compose down` and Ctrl+C on the ngrok process.
 
 ### Production Options
 1. **Self-Hosted (AWS EC2/VPS)**
