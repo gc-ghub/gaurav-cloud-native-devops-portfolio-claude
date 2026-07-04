@@ -1,0 +1,17 @@
+{
+  "hooks": {
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "if [ -n \"$CLAUDE_AUTO_REVIEW\" ]; then exit 0; fi; if git diff --quiet && git diff --cached --quiet; then exit 0; fi; CLAUDE_AUTO_REVIEW=1 claude -p \"/code-review medium\" --allowedTools \"Read Grep Glob Bash(git *)\" > .claude/last-code-review.log 2>&1",
+            "async": true,
+            "timeout": 600,
+            "statusMessage": "Running automated code review on this change..."
+          }
+        ]
+      }
+    ]
+  }
+}

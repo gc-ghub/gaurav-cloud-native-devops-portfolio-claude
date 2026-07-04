@@ -1,10 +1,24 @@
-/* Dark is the default/primary theme (values live in global.css's @theme block).
-   This file only holds the light-mode override, toggled via a .light class
-   on <html> — :root.light has higher specificity than :root so it wins. */
+/* Dark is the base/fallback theme (values live in global.css's @theme block).
+   This file holds the light-mode and green-mode overrides, toggled via a
+   .light or .green class on <html> — :root.light/:root.green have higher
+   specificity than :root so they win. Green is the default theme (see
+   stores/theme.js); dark and light remain available via the theme toggle. */
 :root.light {
   --color-bg: #ffffff;
   --color-surface: rgba(15, 20, 25, 0.04);
   --color-border: rgba(15, 20, 25, 0.08);
   --color-text: #1a1a1a;
   --color-text-muted: #4b4b57;
+}
+
+/* Green theme: bg/surface/primary sampled directly from the provided
+   WhatsApp promo screenshot (deep teal-green background #0b4640, card tone
+   #194f4b, mint-green accent #5cda86) — text stays white, as in dark mode. */
+:root.green {
+  --color-bg: #0b4640;
+  --color-surface: rgba(92, 218, 134, 0.08);
+  --color-border: rgba(92, 218, 134, 0.18);
+  --color-text: #ffffff;
+  --color-text-muted: #a8c9be;
+  --color-primary: #5cda86;
 }

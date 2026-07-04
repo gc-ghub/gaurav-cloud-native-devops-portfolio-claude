@@ -22,7 +22,10 @@ A modern, production-grade portfolio website built with **Svelte + Go** showcasi
 
 **All 8 phases are done**, with Phase 8 scoped to local Docker verification (see below — no live deployment exists). This is a real, working full-stack app with **real content throughout — no more placeholders**:
 
-- **`frontend/`** — Vite + Svelte 5 + Tailwind v4 SPA styled after `pics/portfolio_template-3.png`, dark/light theme toggle, scroll-reveal animations (respects `prefers-reduced-motion`), SEO meta/OG/JSON-LD. Builds cleanly, verified via Playwright (dark/light/mobile, no console errors).
+- **`frontend/`** — Vite + Svelte 5 + Tailwind v4 SPA styled after `pics/portfolio_template-3.png`, green/dark/light 3-way theme toggle (green default), scroll-reveal animations (respects `prefers-reduced-motion`), SEO meta/OG/JSON-LD. Builds cleanly, verified via Playwright (green/dark/light/mobile, no console errors).
+- **Green theme:** added alongside dark/light, now the default. Background/surface/primary colors were sampled directly (pixel-level, via a small Python/PIL script) from a WhatsApp promo screenshot the user provided — deliberately *only* the green hues (deep teal-green `#0b4640` background, mint `#5cda86` accent), not the cream/tan colors also present in that image, per explicit instruction. See `decisions.md`.
+- **Skills & Expertise icons:** every skill badge (Kubernetes, Docker, ArgoCD, etc.) now renders a real icon next to its label, not just text — real brand SVGs from simple-icons where available, generic outline icons where no official logo exists (Kyverno, Kiali, Gitleaks). See `decisions.md`.
+- **Automated code review on change:** a project-level `Stop` hook (`.claude/settings.json`) runs `/code-review medium` in the background whenever a Claude Code turn ends with uncommitted changes present, logging to `.claude/last-code-review.log` (gitignored). Guarded against recursive self-triggering via a `CLAUDE_AUTO_REVIEW` env sentinel. See `decisions.md`.
 - **`backend/`** — Go + Gin API on `:8080` serving `GET /api/projects`, `GET /api/certifications`, `GET /api/github-stats`, and `GET /healthz`, with unit test coverage (`go test ./...`, all passing).
 - **Real bio, real photo:** Hero bio text and one explicitly "featured" project are sourced from `pics/bio.txt` (the user's real content, not invented copy). Hero avatar is the user's real GitHub avatar (`https://avatars.githubusercontent.com/u/161034127?v=4`).
 - **Real pinned + featured projects, live and verified:** `/api/projects` always leads with the featured project (from `pics/bio.txt`, with **live** stars/forks looked up from GitHub), then fills the rest from the user's real **pinned** GitHub repos via the GitHub **GraphQL** API (REST has no pinned-repos endpoint, and GraphQL requires a token even for public reads). The user provided a token and this was confirmed working live (real pinned repos returned, not the star-sorted fallback). If `GITHUB_TOKEN` is ever unset or the GraphQL call fails, `/api/projects` gracefully **falls back** to top-starred non-fork/non-archived repos — verified working both ways.
@@ -79,6 +82,8 @@ Core DevOps Skills:
 - **Programming/Scripting:** Python, Go, Bash, FastAPI
 - **Cloud-Native Tools:** Argo CD, Kafka, Gitleaks, Trivy, CodeQL
 
+Each badge shows a real icon next to its label (`frontend/src/components/TechIcon.svelte` + `frontend/src/lib/techIcons.js`): official brand SVGs (sourced from simple-icons, CC0) at their real brand hex color for every tool that has one; a generic monochrome outline icon (shield/key/mesh) for the handful with no available official logo asset (Kyverno, Kiali, Gitleaks); and a same-vendor reuse for near-siblings with no distinct logo of their own (Docker Compose → Docker, Loki/Tempo → Grafana, CodeQL → GitHub). See `decisions.md` for the full icon-sourcing rationale.
+
 #### 3. **Certifications & Achievements**
 - Pull certifications from Credly API
 - Display with badges/logos
@@ -99,7 +104,7 @@ Core DevOps Skills:
 - **Framework:** Svelte 5, using runes (`$state`, `$props`) — ✅ in use
 - **Build Tool:** Vite — ✅ in use
 - **Styling:** Tailwind CSS **v4** — ✅ in use, CSS-first config (`@theme` block in `src/styles/global.css`, no `tailwind.config.js`)
-- **Theme Toggle:** Dark/Light mode (CSS custom properties + `.light` class on `<html>` + `localStorage`) — ✅ implemented (`src/stores/theme.js`)
+- **Theme Toggle:** Green/Dark/Light three-way cycle (CSS custom properties + `.green`/`.light` class on `<html>` + `localStorage`), **Green is the default** — ✅ implemented (`src/stores/theme.js`)
 - **Icons:** Inline SVG — ✅ implemented
 - **API Client:** Fetch API — ✅ implemented (`src/lib/api.js`), calls the backend for projects/certifications/stats
 - **Routing:** None yet — currently a single-page SPA, all sections assembled directly in `App.svelte`. SvelteKit remains a future option if multi-page routing is needed.
@@ -130,7 +135,8 @@ portfolio-devops/
 │   │   ├── components/         # One component per portfolio section
 │   │   │   ├── Header.svelte           # logo, nav (Skills/Featured Projects/Achievements only), theme toggle
 │   │   │   ├── HeroSection.svelte             # real bio + real GitHub avatar photo
-│   │   │   ├── SkillsSection.svelte
+│   │   │   ├── SkillsSection.svelte           # renders each skill badge with a TechIcon
+│   │   │   ├── TechIcon.svelte                # renders a skill's brand/generic icon by label
 │   │   │   ├── ProjectCard.svelte
 │   │   │   ├── FeaturedProjects.svelte        # fetches live data (featured + pinned), scroll-reveal
 │   │   │   ├── GithubStatsBar.svelte          # small stat pills, fetched independently
@@ -142,12 +148,13 @@ portfolio-devops/
 │   │   ├── lib/
 │   │   │   ├── api.js                  # fetchProjects/fetchCertifications/fetchGithubStats
 │   │   │   ├── socials.js              # single source of truth for GitHub/LinkedIn/Credly links
-│   │   │   └── reveal.js               # IntersectionObserver scroll-reveal action, respects prefers-reduced-motion
+│   │   │   ├── reveal.js               # IntersectionObserver scroll-reveal action, respects prefers-reduced-motion
+│   │   │   └── techIcons.js            # brand icon path/hex data (simple-icons) + generic fallbacks + skill→icon map
 │   │   ├── stores/
-│   │   │   └── theme.js
+│   │   │   └── theme.js                # green/dark/light 3-way cycle, green is default
 │   │   ├── styles/
-│   │   │   ├── global.css              # Tailwind v4 entry + @theme tokens
-│   │   │   └── variables.css           # light-mode overrides
+│   │   │   ├── global.css              # Tailwind v4 entry + @theme tokens (dark base)
+│   │   │   └── variables.css           # light-mode and green-mode overrides
 │   │   └── App.svelte
 │   ├── public/
 │   │   └── robots.txt
@@ -243,8 +250,16 @@ No SMTP/contact vars — that feature was removed entirely, not just deferred.
 
 ## 🎨 Design Specifications
 
-### Theme (Dark + Light Mode)
-**Dark Mode (Primary):**
+### Theme (Green + Dark + Light Mode)
+Toggle cycles Green → Dark → Light → Green (`nextTheme()` in `src/stores/theme.js`). **Green is the default** theme for first-time visitors; the choice persists in `localStorage`.
+
+**Green Mode (default):**
+- Background: #0b4640 (deep teal-green)
+- Surface/border: green-tinted glass, derived from the accent at low alpha
+- Primary/accent highlights: #5cda86 (mint green)
+- Text: #ffffff (unchanged from dark mode — see `decisions.md` for why only the green hues were pulled from the reference image)
+
+**Dark Mode:**
 - Background: #1a1a2e or #0f1419
 - Primary: #6f3ce5 (Purple) or #00d4ff (Cyan)
 - Text: #ffffff / #e0e0e0

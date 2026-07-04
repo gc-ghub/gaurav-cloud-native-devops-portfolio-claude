@@ -1,5 +1,6 @@
 <script>
   import { reveal } from '../lib/reveal.js'
+  import TechIcon from './TechIcon.svelte'
 
   const skillGroups = [
     { title: 'Container & Orchestration', items: ['Kubernetes', 'Docker', 'Helm', 'Istio', 'Kyverno'] },
@@ -24,7 +25,8 @@
         <h3 class="font-semibold text-primary">{group.title}</h3>
         <div class="mt-4 flex flex-wrap gap-2">
           {#each group.items as item}
-            <span class="rounded-full border border-border px-3 py-1 text-xs font-medium text-text-muted">
+            <span class="flex items-center gap-1.5 rounded-full border border-border px-3 py-1 text-xs font-medium text-text-muted">
+              <TechIcon name={item} />
               {item}
             </span>
           {/each}
